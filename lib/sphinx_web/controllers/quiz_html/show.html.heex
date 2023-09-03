@@ -1,0 +1,44 @@
+<.header>
+  Quiz: <%= @quiz.name %>
+  <:actions>
+    <%= if @current_user.teacher? do %>
+      <.link href={~p"/quizzes/#{@quiz}/edit"}>
+        <.button>Edit quiz</.button>
+      </.link>
+    <% end %>
+  </:actions>
+</.header>
+
+<.header class="py-4">Questions</.header>
+
+<div>
+  <%= for {question, seq} <- Enum.with_index(@quiz.questions) do %>
+    <div class="py-2 border border-smoke-400">
+      <div class="p-2"><b>Q<%= seq+1 %>:</b> <%= question.prompt %></div>
+
+      <.simple_form :let={f}
+                    for={new_answer(question, @current_user)}
+                    action={~p"/answers"}>
+        <.input field={f[:question_id]} type="hidden" />
+        <.input field={f[:user_id]} type="hidden" />
+        <.input field={f[:answer]} type="select" label="Answer"
+          options={["true": "true", "false": "false"]} />
+        <:actions>
+          <.button>Save Answer</.button>
+        </:actions>
+      </.simple_form>
+    </div>
+  <% end %>
+</div>
+
+
+<div>
+  <div class="py-4">&nbsp;</div>
+  <.header class="py-4">Add New Question</.header>
+</div>
+
+<div class="border border-smoke-400 my-8 p-2">
+  <.question_form changeset={@new_question} action={~p"/questions"} />
+</div>
+
+<.back navigate={~p"/quizzes"}>Back to quizzes</.back>

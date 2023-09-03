@@ -1,0 +1,12 @@
+<.simple_form :let={f} for={@changeset} action={@action}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+  <.input field={f[:quiz_id]} type="hidden" />
+  <.input field={f[:prompt]} type="text" label="Prompt" />
+  <.input field={f[:answer]} type="select" label="Answer"
+    options={["true": "true", "false": "false"]} />
+  <:actions>
+    <.button>Save Question</.button>
+  </:actions>
+</.simple_form>

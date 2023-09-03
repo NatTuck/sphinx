@@ -5,6 +5,7 @@ defmodule SphinxWeb.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
+    plug SphinxWeb.Plugs.FetchSession
     plug :put_root_layout, html: {SphinxWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
@@ -18,6 +19,12 @@ defmodule SphinxWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    resources "/users", UserController
+    resources "/session", SessionController,
+      singleton: true, only: [:create, :delete]
+    resources "/quizzes", QuizController
+    resources "/questions", QuestionController
+    resources "/answers", AnswerController
   end
 
   # Other scopes may use custom stacks.

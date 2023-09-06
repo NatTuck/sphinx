@@ -31,7 +31,7 @@
   <% end %>
 </div>
 
-
+<%= if @current_user.teacher? do %>
 <div>
   <div class="py-4">&nbsp;</div>
   <.header class="py-4">Add New Question</.header>
@@ -40,5 +40,6 @@
 <div class="border border-smoke-400 my-8 p-2">
   <.question_form changeset={@new_question} action={~p"/questions"} />
 </div>
+<% end %>
 
 <.back navigate={~p"/quizzes"}>Back to quizzes</.back>
